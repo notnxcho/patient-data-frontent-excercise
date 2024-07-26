@@ -5,6 +5,7 @@ import "./PatientCardStyles.scss"
 import { useInView } from "react-intersection-observer"
 import EditIcon from "../../assets/icons/editIcon"
 import { formatDate } from "../../utils/common"
+import defaultPic from '../../assets/defaultPic.png'
 
 const PatientCard = ({ patient, isExpanded, onToggleExpand, onEdit }: { patient: PatientType, isExpanded: boolean, onToggleExpand: () => void, onEdit: (patient: PatientType) => void }) => {
   const { ref, inView } = useInView({
@@ -19,12 +20,14 @@ const PatientCard = ({ patient, isExpanded, onToggleExpand, onEdit }: { patient:
   return (
     <div className={`patient-card-container ${ inView ? 'in-view' : 'hide-in-view' }`} ref={ref}>
       <div className="patient-header">
-        <img src={patient.avatar} alt={`${patient.name}'s avatar`} className="patient-avatar" />
+        <img src={patient.avatar || defaultPic} alt={`${patient.name}'s avatar`} className="patient-avatar" />
         <div className="flex flex-col gap-1">
           <div className="patient-name">{patient.name}</div>
-          <div className="website-chip">
-            <a href={patient.website} className="text-gray-500">{patient.website}</a>
-          </div>
+          { patient.website &&
+            <div className="website-chip">
+              <a href={patient.website} className="text-gray-500">{patient.website}</a>
+            </div>
+          }
         </div>
       </div>
       <div className={`patient-description ${isExpanded ? '' : 'collapsed'}`} onClick={onToggleExpand}>

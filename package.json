@@ -2,6 +2,7 @@
   "name": "patient-data-frontend-excercise",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "dependencies": {
     "@tanstack/react-query": "^5.51.11",
     "@testing-library/jest-dom": "^5.17.0",
@@ -13,6 +14,7 @@
     "react-dom": "^18.3.1",
     "react-intersection-observer": "^9.13.0",
     "react-scripts": "5.0.1",
+    "react-toastify": "^10.0.5",
     "sass": "^1.77.8",
     "tailwindcss": "^3.4.7",
     "typescript": "^4.9.5",
@@ -22,7 +24,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "eslint 'src/**/*.{js,jsx,ts,tsx}'"
   },
   "eslintConfig": {
     "extends": [
@@ -44,6 +47,11 @@
   },
   "devDependencies": {
     "@types/react": "^18.3.3",
-    "@types/react-dom": "^18.3.0"
+    "@types/react-dom": "^18.3.0",
+    "@typescript-eslint/eslint-plugin": "^7.17.0",
+    "@typescript-eslint/parser": "^7.17.0",
+    "eslint": "^9.8.0",
+    "eslint-plugin-react": "^7.35.0",
+    "eslint-plugin-react-hooks": "^4.6.2"
   }
 }

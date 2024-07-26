@@ -8,14 +8,39 @@ const PatientModal = ({ patient, onClose, onUpdatePatient }: { patient: PatientT
   const [website, setWebsite] = useState(patient.website)
   const [avatar, setAvatar] = useState(patient.avatar)
   const [description, setDescription] = useState(patient.description)
+  const [animateClose, setAnimateClose] = useState(false)
+  const [errors, setErrors] = useState<{ name?: string, website?: string, description?: string }>({})
+
+  const validateInputs = () => {
+    const newErrors: { name?: string, website?: string, description?: string } = {}
+    if (!name.trim()) newErrors.name = 'Name is required'
+    if (website && !/^https?:\/\/[^\s$.?#].[^\s]*$/.test(website)) newErrors.website = 'Invalid website URL'
+    if (!description.trim()) newErrors.description = 'Description is required'
+    return newErrors
+  }
 
   const handleSubmit = () => {
-    onUpdatePatient({ ...patient, name, website, avatar, description })
-    onClose()
+    setErrors({})
+    setTimeout(()=> {
+      const validationErrors = validateInputs()
+      if (Object.keys(validationErrors).length > 0) {
+        setErrors(validationErrors)
+        return
+      }
+      onUpdatePatient({ ...patient, name, website, avatar, description })
+      handleLocalOnClose()
+    }, 0)
   }
 
   const handleDeleteAvatar = () => {
-    setAvatar(defaultPic)
+    setAvatar('')
+  }
+
+  const handleLocalOnClose = () => {
+    setAnimateClose(true)
+    setTimeout(() => {
+      onClose()
+    }, 200)
   }
 
   const handleUploadAvatar = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -31,31 +56,16 @@ const PatientModal = ({ patient, onClose, onUpdatePatient }: { patient: PatientT
   }
 
   return (
-    <div className={`modal-overlay ${patient ? 'visible' : ''}`}>
-      <div className="bg-white p-4 rounded-lg shadow-lg">
-        <h2 className="text-xl font-bold">Edit Patient</h2>
-        <input
-          type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          className="border p-2 mt-2 w-full"
-        />
-        <input
-          type="text"
-          value={website}
-          onChange={(e) => setWebsite(e.target.value)}
-          className="border p-2 mt-2 w-full"
-        />
-        <div className="avatar-section mt-2">
-          {avatar && (
-            <img
-              src={avatar}
-              alt="Avatar"
-              className="w-24 h-24 rounded-full object-cover"
-            />
-          )}
-          <div className="avatar-buttons mt-2">
-            <button onClick={handleDeleteAvatar} className="bg-red-500 text-white p-2 rounded mr-2">Delete</button>
+    <div className={`modal-overlay ${patient && !animateClose ? 'visible' : 'hidden'}`} onClick={handleLocalOnClose}>
+      <div className="modal-container" onClick={(e)=>e.stopPropagation()}>
+        <h2 className="text-xl font-semibold">{patient.name ? 'Edit Patient' : 'Add Patient'}</h2>
+        <div className="avatar-section my-4">
+          <img
+            src={avatar || defaultPic}
+            alt="Avatar"
+            className="w-24 h-24 rounded-full object-cover"
+          />          
+          <div className="avatar-buttons">
             <input
               type="file"
               accept="image/*"
@@ -63,16 +73,40 @@ const PatientModal = ({ patient, onClose, onUpdatePatient }: { patient: PatientT
               className="hidden"
               id="upload-avatar"
             />
-            <label htmlFor="upload-avatar" className="bg-blue-500 text-white p-2 rounded cursor-pointer">Upload</label>
+            <label htmlFor="upload-avatar" className="bg-black text-white py-2 px-3 rounded-lg font-medium cursor-pointer hover:bg-[#303030]">Upload new</label>
+            { avatar && <button onClick={handleDeleteAvatar} className="text-red-500">Delete</button>}
           </div>
         </div>
-        <textarea
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          className="border p-2 mt-2 w-full"
+        <input
+          type="text"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          placeholder='Patient name'
+          className={errors.name && 'shake'}
         />
-        <button onClick={handleSubmit} className="mt-4 bg-blue-500 text-white p-2 rounded">Save</button>
-        <button onClick={onClose} className="mt-2 text-red-500">Cancel</button>
+        {errors.name && <p className="text-red-500">{errors.name}</p>}
+        <input
+          type="text"
+          value={website}
+          onChange={(e) => setWebsite(e.target.value)}
+          placeholder='Website address'
+          className={errors.website && 'shake'}
+        />
+        {errors.website && <p className="text-red-500">{errors.website}</p>}
+        <div className="desc-wrapper-container">
+          <textarea
+            placeholder='Description'
+            style={{ resize: 'none' }}
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            className={errors.description && 'shake'}
+          />
+        </div>
+        {errors.description && <p className="text-red-500">{errors.description}</p>}
+        <div className='flex flex-col gap-3 mt-4'>
+          <button onClick={handleSubmit} className="bg-black text-white py-3 font-semibold rounded-lg text-lg hover:bg-[#303030]">Save changes</button>
+          <button onClick={handleLocalOnClose} className="text-red-500 text-lg py-3 rounded-lg font-semibold hover:bg-[#f2f2f2]">Cancel</button>
+        </div>
       </div>
     </div>
   )
