@@ -1,0 +1,18 @@
+.modal-overlay {
+  position: fixed;
+  z-index: 11;
+  backdrop-filter: blur(4px);
+  background-color: rgba(0,0,0,.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  inset: 0px;
+  opacity: 0;
+  transform: translateY(60px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.modal-overlay.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
