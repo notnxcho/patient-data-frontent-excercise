@@ -15,7 +15,7 @@ const App = () => {
     null,
   )
   const [localPatients, setLocalPatients] = useState<PatientType[]>([])
-  const [sortOrder, setSortOrder] = useState<'newest' | 'oldest'>('oldest')
+  const [sortOrder, setSortOrder] = useState<'newest' | 'oldest'>('newest')
 
   useEffect(() => {
     setLocalPatients(patients)

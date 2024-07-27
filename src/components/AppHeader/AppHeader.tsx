@@ -16,7 +16,7 @@ const AppHeader = ({
         <h1 className='text-xl font-bold'>Patient List</h1>
         <div className='options-wrap'>
           <button className='sort-button' onClick={() => onToggleSortOrder()}>
-            Sort by: {sortOrder === 'newest' ? 'Oldest' : 'Newest'}
+            Sort by: {sortOrder === 'oldest' ? 'Oldest' : 'Newest'}
           </button>
           <button className='add-button' onClick={onAddPatient}>
             <AddIcon color='white' stroke={1.5} />
