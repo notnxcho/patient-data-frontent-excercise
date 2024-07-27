@@ -1,62 +1,63 @@
-# Getting Started with Create React App
+## How to Run the App Locally
 
-This project was bootstrapped with
-[Create React App](https://github.com/facebook/create-react-app).
+1. **Install Node.js:**
+   This project uses Node.js version 18.19.0.
+   You can manage and install different versions of Node.js using nvm (Node Version Manager).
+   should be something along the lines of:
+   ```bash
+   nvm use 18.19.0
+   ```
 
-## Available Scripts
+   For more information, refer to the [nvm documentation](https://github.com/nvm-sh/nvm).
 
-In the project directory, you can run:
+2. **Install dependencies:**
+   Run the following command to install all necessary dependencies:
+   ```bash
+   npm install
+   ```
 
-### `npm start`
+3. **Start the development server:**
+   After the dependencies are installed, start the development server with:
+   ```bash
+   npm start
+   ```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+4. **Open the app in your browser:**
+   Once the development server is running, open your browser and navigate to:
+   ```
+   http://localhost:3000
+   ```
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### Design Decisions
+**Context API**
+    I used a provider for managing the state of the patients in the app to keep things tidy 
+    and efficient. By using a provider, I can share the patient-related data across different 
+    components without having to prop-drill. This makes the code cleaner and more 
+    maintainable. Plus, it centralizes the state management, making it easier to handle    
+    updates and keep everything in sync also promoting better structure and scalability for 
+    the app.
 
-### `npm test`
+    Probably overkill for what it is but still.
 
-Launches the test runner in the interactive watch mode.\
-See the section about
-[running tests](https://facebook.github.io/create-react-app/docs/running-tests)
-for more information.
+### Libraries and Resources:
+1. **Tailwind CSS**
+   Speeds up putting together the UI. I like a hybrid between tailwind and traditional classNames, for most wrappers and things of the sort that have light styling, I use the tailwind classes. Also for managing themes.
 
-### `npm run build`
+2. **React Hook Form**
+   Simple and performant, pretty standard as well. Has some built in accesibilty features that I appreciate having.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the
-best performance.
+3. **Yup**
+   Used with react-hook-form providing robust input validation. I like the schema approach, even though the form in this exercise is fairly simple, it's always good to foresee scalability.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+4. **FocusTrap**
+   I found the keyboard navigation within the modal frustrating, hence the focus trap and the keystrokes functions.
 
-See the section about
-[deployment](https://facebook.github.io/create-react-app/docs/deployment) for
-more information.
+5. **React Toastify**
+   Plug and play toast notifications, easy to use and pretty light as well.
 
-### `npm run eject`
+6. **React Intersection Observer**
+   Lightweight and easy to integrate within a component, as it does not need any code in the parent to support usage. Cool for animating stuff into the viewport and also helpful for performance concerns like lazy loading imgs.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+7. **Prettier**
+    Just prettier so my code isn't nasty to look at.
 
-If you aren’t satisfied with the build tool and configuration choices, you can
-`eject` at any time. This command will remove the single build dependency from
-your project.
-
-Instead, it will copy all the configuration files and the transitive
-dependencies (webpack, Babel, ESLint, etc) right into your project so you have
-full control over them. All of the commands except `eject` will still work, but
-they will point to the copied scripts so you can tweak them. At this point
-you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for
-small and middle deployments, and you shouldn’t feel obligated to use this
-feature. However we understand that this tool wouldn’t be useful if you couldn’t
-customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the
-[Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
