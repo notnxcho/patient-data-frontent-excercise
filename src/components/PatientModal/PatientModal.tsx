@@ -146,9 +146,7 @@ const PatientModal = ({
               placeholder='Patient name'
               className={errors.name && !resetShake ? 'shake' : ''}
             />
-            {errors.name && (
-              <p className='text-red-500'>{errors.name.message}</p>
-            )}
+            {errors.name && <p className='text-red-500'>{errors.name.message}</p>}
             <input
               type='text'
               {...register('website')}
@@ -177,12 +175,12 @@ const PatientModal = ({
               >
                 Save changes
               </button>
-              <button
+              <div
                 onClick={handleLocalOnClose}
-                className='text-red-500 text-lg py-3 rounded-lg font-semibold hover:bg-[#f2f2f2]'
+                className='flex cursor-pointer justify-center text-red-500 text-lg py-3 rounded-lg font-semibold hover:bg-[#f2f2f2]'
               >
                 Cancel
-              </button>
+              </div>
             </div>
           </div>
         </form>
