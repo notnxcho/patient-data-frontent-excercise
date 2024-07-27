@@ -58,5 +58,5 @@
    Lightweight and easy to integrate within a component, as it does not need any code in the parent to support usage. Cool for animating stuff into the viewport and also helpful for performance concerns like lazy loading imgs.
 
 7. **Prettier:**
-    Just prettier so my code isn't nasty to look at.
+    Just prettier so it keeps everything tidy (indent-wise).
 
