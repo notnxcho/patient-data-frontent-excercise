@@ -29,7 +29,10 @@
    ```
 
 ### Design Decisions
-**Context API**
+**General:**
+    As this app is barely a CRUD (not even bc the only actual API call is a fetch to retrieve the patients), and it doesn't have a need for SEO, nor complex routing or heavy date fetching logics, SSR would be a total overkill. It'd just make things more difficult to set up.
+
+**Context API:**
     I used a provider for managing the state of the patients in the app to keep things tidy 
     and efficient. By using a provider, I can share the patient-related data across different 
     components without having to prop-drill. This makes the code cleaner and more 
