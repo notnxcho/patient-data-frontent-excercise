@@ -36,28 +36,27 @@
     maintainable. Plus, it centralizes the state management, making it easier to handle    
     updates and keep everything in sync also promoting better structure and scalability for 
     the app.
-
     Probably overkill for what it is but still.
 
 ### Libraries and Resources:
-1. **Tailwind CSS**
+1. **Tailwind CSS:**
    Speeds up putting together the UI. I like a hybrid between tailwind and traditional classNames, for most wrappers and things of the sort that have light styling, I use the tailwind classes. Also for managing themes.
 
-2. **React Hook Form**
+2. **React Hook Form:**
    Simple and performant, pretty standard as well. Has some built in accesibilty features that I appreciate having.
 
-3. **Yup**
+3. **Yup:**
    Used with react-hook-form providing robust input validation. I like the schema approach, even though the form in this exercise is fairly simple, it's always good to foresee scalability.
 
-4. **FocusTrap**
+4. **FocusTrap:**
    I found the keyboard navigation within the modal frustrating, hence the focus trap and the keystrokes functions.
 
-5. **React Toastify**
+5. **React Toastify:**
    Plug and play toast notifications, easy to use and pretty light as well.
 
-6. **React Intersection Observer**
+6. **React Intersection Observer:**
    Lightweight and easy to integrate within a component, as it does not need any code in the parent to support usage. Cool for animating stuff into the viewport and also helpful for performance concerns like lazy loading imgs.
 
-7. **Prettier**
+7. **Prettier:**
     Just prettier so my code isn't nasty to look at.
 
