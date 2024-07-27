@@ -9,11 +9,8 @@ import { toast } from 'react-toastify'
 import SkeletonCard from './components/SkeletonCard/SkeletonCard'
 
 const App = () => {
-  const { patients, selectedPatient, setSelectedPatient, isLoading } =
-    usePatientContext()
-  const [expandedPatientId, setExpandedPatientId] = useState<number | null>(
-    null,
-  )
+  const { patients, selectedPatient, setSelectedPatient, isLoading } = usePatientContext()
+  const [expandedPatientId, setExpandedPatientId] = useState<number | null>(null)
   const [localPatients, setLocalPatients] = useState<PatientType[]>([])
   const [sortOrder, setSortOrder] = useState<'newest' | 'oldest'>('newest')
 
@@ -42,9 +39,7 @@ const App = () => {
 
   const handleUpdatePatient = (updatedPatient: PatientType) => {
     setLocalPatients(prevPatients => {
-      const existingPatientIndex = prevPatients.findIndex(
-        patient => patient.id === updatedPatient.id,
-      )
+      const existingPatientIndex = prevPatients.findIndex(patient => patient.id === updatedPatient.id)
       if (existingPatientIndex !== -1) {
         // update existing patient
         const updatedPatients = [...prevPatients]
@@ -73,38 +68,24 @@ const App = () => {
 
   return (
     <div className='App'>
-      <AppHeader
-        onAddPatient={handleAddPatient}
-        onToggleSortOrder={handleToggleSortOrder}
-        sortOrder={sortOrder}
-      />
+      <AppHeader onAddPatient={handleAddPatient} onToggleSortOrder={handleToggleSortOrder} sortOrder={sortOrder} />
       <div className='flex flex-col items-center gap-4 overflow-hidden w-full'>
         <div className='custom-container main-grid mt-[64px]'>
           {isLoading
-            ? Array.from({ length: 5 }).map((_, index) => (
-                <SkeletonCard key={index} />
-              ))
+            ? Array.from({ length: 5 }).map((_, index) => <SkeletonCard key={index} />)
             : sortedPatients.map((patient: PatientType) => (
                 <PatientCard
                   key={patient.id}
                   patient={patient}
                   isExpanded={expandedPatientId === patient.id}
-                  onToggleExpand={() =>
-                    setExpandedPatientId(
-                      expandedPatientId === patient.id ? null : patient.id,
-                    )
-                  }
+                  onToggleExpand={() => setExpandedPatientId(expandedPatientId === patient.id ? null : patient.id)}
                   onEdit={handleEdit}
                 />
               ))}
         </div>
       </div>
       {selectedPatient && (
-        <PatientModal
-          patient={selectedPatient}
-          onClose={handleCloseModal}
-          onUpdatePatient={handleUpdatePatient}
-        />
+        <PatientModal patient={selectedPatient} onClose={handleCloseModal} onUpdatePatient={handleUpdatePatient} />
       )}
     </div>
   )

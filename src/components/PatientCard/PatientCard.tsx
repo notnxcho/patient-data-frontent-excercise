@@ -26,35 +26,21 @@ const PatientCard = ({
   }
 
   return (
-    <div
-      className={`patient-card-container ${inView ? 'in-view' : 'hide-in-view'}`}
-      ref={ref}
-    >
+    <div className={`patient-card-container ${inView ? 'in-view' : 'hide-in-view'}`} ref={ref}>
       <div className='patient-header'>
-        <img
-          src={patient.avatar || defaultPic}
-          alt={`${patient.name}'s avatar`}
-          className='patient-avatar'
-        />
+        <img src={patient.avatar || defaultPic} alt={`${patient.name}'s avatar`} className='patient-avatar' />
         <div className='flex flex-col gap-1'>
           <div className='patient-name'>{patient.name}</div>
           {patient.website && (
             <div className='website-chip'>
-              <a
-                href={patient.website}
-                target='_blank'
-                className='text-gray-500'
-              >
+              <a href={patient.website} target='_blank' className='text-gray-500'>
                 {patient.website}
               </a>
             </div>
           )}
         </div>
       </div>
-      <div
-        className={`patient-description ${isExpanded ? '' : 'collapsed'}`}
-        onClick={onToggleExpand}
-      >
+      <div className={`patient-description ${isExpanded ? '' : 'collapsed'}`} onClick={onToggleExpand}>
         {patient.description}
       </div>
       <div className='patient-footer'>

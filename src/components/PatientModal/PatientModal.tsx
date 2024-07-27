@@ -101,24 +101,12 @@ const PatientModal = ({
 
   return (
     <FocusTrap>
-      <div
-        className={`modal-overlay ${patient && !animateClose ? 'visible' : 'hidden'}`}
-        onClick={handleLocalOnClose}
-      >
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className='flex flex-col grow items-center justify-center'
-        >
+      <div className={`modal-overlay ${patient && !animateClose ? 'visible' : 'hidden'}`} onClick={handleLocalOnClose}>
+        <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col grow items-center justify-center'>
           <div className='modal-container' onClick={e => e.stopPropagation()}>
-            <h2 className='text-xl font-semibold'>
-              {patient.name ? 'Edit Patient' : 'Add Patient'}
-            </h2>
+            <h2 className='text-xl font-semibold'>{patient.name ? 'Edit Patient' : 'Add Patient'}</h2>
             <div className='avatar-section my-4'>
-              <img
-                src={watch('avatar') || defaultPic}
-                alt='Avatar'
-                className='w-24 h-24 rounded-full object-cover'
-              />
+              <img src={watch('avatar') || defaultPic} alt='Avatar' className='w-24 h-24 rounded-full object-cover' />
               <div className='avatar-buttons'>
                 <input
                   type='file'
@@ -153,9 +141,7 @@ const PatientModal = ({
               placeholder='Website address'
               className={errors.website && !resetShake ? 'shake' : ''}
             />
-            {errors.website && (
-              <p className='text-red-500'>{errors.website.message}</p>
-            )}
+            {errors.website && <p className='text-red-500'>{errors.website.message}</p>}
             <div className='desc-wrapper-container'>
               <textarea
                 placeholder='Description'
@@ -164,9 +150,7 @@ const PatientModal = ({
                 className={errors.description && !resetShake ? 'shake' : ''}
               />
             </div>
-            {errors.description && (
-              <p className='text-red-500'>{errors.description.message}</p>
-            )}
+            {errors.description && <p className='text-red-500'>{errors.description.message}</p>}
             <div className='flex flex-col gap-3 mt-4'>
               <button
                 type='submit'

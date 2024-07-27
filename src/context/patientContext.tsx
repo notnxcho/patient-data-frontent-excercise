@@ -17,9 +17,7 @@ const PatientContext = createContext<PatientContextType | undefined>(undefined)
 
 export const PatientProvider = ({ children }: { children: ReactNode }) => {
   const { data: patients = [], isLoading } = usePatients()
-  const [selectedPatient, setSelectedPatient] = useState<PatientType | null>(
-    null,
-  )
+  const [selectedPatient, setSelectedPatient] = useState<PatientType | null>(null)
 
   const addPatient = (patient: PatientType) => {
     // no apis to call
