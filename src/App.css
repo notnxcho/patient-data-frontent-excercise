@@ -17,3 +17,13 @@
     width: calc(100vw - 32px);
   }
 }
+
+.main-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 24px;
+  padding: 24px 0px;
+  @media (max-width: calc(360px + 32px)) {
+    grid-template-columns: 1fr;
+  }
+}
