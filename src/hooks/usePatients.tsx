@@ -1,9 +1,8 @@
 import { useQuery } from '@tanstack/react-query'
+import { apiRoutes } from '../constants/routes'
 
 const fetchPatients = async () => {
-  const response = await fetch(
-    'https://63bedcf7f5cfc0949b634fc8.mockapi.io/users',
-  )
+  const response = await fetch(apiRoutes.patients)
   if (!response.ok) {
     throw new Error('Network response was not ok')
   }

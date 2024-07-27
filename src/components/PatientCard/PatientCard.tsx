@@ -1,5 +1,3 @@
-import { useState } from 'react'
-import { usePatientContext } from '../../context/patientContext'
 import { PatientType } from '../../types'
 import './PatientCardStyles.scss'
 import { useInView } from 'react-intersection-observer'
@@ -20,7 +18,7 @@ const PatientCard = ({
 }) => {
   const { ref, inView } = useInView({
     triggerOnce: true,
-    rootMargin: '-80px 0px',
+    rootMargin: '-20px 0px',
   })
 
   const handleEdit = () => {

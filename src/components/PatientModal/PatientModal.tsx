@@ -146,7 +146,9 @@ const PatientModal = ({
               placeholder='Patient name'
               className={errors.name && !resetShake ? 'shake' : ''}
             />
-            {errors.name && <p className='text-red-500'>{errors.name.message}</p>}
+            {errors.name && (
+              <p className='text-red-500'>{errors.name.message}</p>
+            )}
             <input
               type='text'
               {...register('website')}
