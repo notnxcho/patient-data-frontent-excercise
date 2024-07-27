@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { PatientType } from '../../types'
 import './PatientModalStyles.scss'
 import defaultPic from '../../assets/defaultPic.png'
@@ -41,18 +41,18 @@ const PatientModal = ({
     defaultValues: patient,
   })
 
-  const handleLocalOnClose = () => {
-    setAnimateClose(true)
-    setTimeout(() => {
-      onClose()
-    }, 200)
-  }
-
   const handleLocalSubmit = () => {
     setResetShake(true)
     setTimeout(() => {
       setResetShake(false)
     }, 0)
+  }
+
+  const handleLocalOnClose = () => {
+    setAnimateClose(true)
+    setTimeout(() => {
+      onClose()
+    }, 200)
   }
 
   const onSubmit: SubmitHandler<Inputs> = data => {
@@ -63,6 +63,28 @@ const PatientModal = ({
   const handleDeleteAvatar = () => {
     setValue('avatar', '')
   }
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Enter') {
+        handleSubmit(onSubmit)()
+      } else if (event.key === 'Escape') {
+        handleLocalOnClose()
+      }
+    }
+
+    if (patient) {
+      document.body.classList.add('no-scroll')
+      window.addEventListener('keydown', handleKeyDown)
+    } else {
+      document.body.classList.remove('no-scroll')
+    }
+
+    return () => {
+      document.body.classList.remove('no-scroll')
+      window.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [patient, handleSubmit, onSubmit, handleLocalOnClose])
 
   const handleUploadAvatar = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {

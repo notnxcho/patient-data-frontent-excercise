@@ -12,6 +12,9 @@ body {
   margin: 0;
   padding: 0;
 }
+.no-scroll {
+  overflow: hidden;
+}
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
