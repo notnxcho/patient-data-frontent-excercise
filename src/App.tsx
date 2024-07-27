@@ -15,6 +15,7 @@ const App = () => {
     null,
   )
   const [localPatients, setLocalPatients] = useState<PatientType[]>([])
+  const [sortOrder, setSortOrder] = useState<'newest' | 'oldest'>('oldest')
 
   useEffect(() => {
     setLocalPatients(patients)
@@ -58,16 +59,32 @@ const App = () => {
     })
   }
 
+  const handleToggleSortOrder = () => {
+    setSortOrder(prev => (prev === 'newest' ? 'oldest' : 'newest'))
+  }
+
+  const sortedPatients = [...localPatients].sort((a, b) => {
+    if (sortOrder === 'newest') {
+      return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    } else {
+      return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+    }
+  })
+
   return (
     <div className='App'>
-      <AppHeader onAddPatient={handleAddPatient} />
+      <AppHeader
+        onAddPatient={handleAddPatient}
+        onToggleSortOrder={handleToggleSortOrder}
+        sortOrder={sortOrder}
+      />
       <div className='flex flex-col items-center gap-4 overflow-hidden w-full'>
         <div className='custom-container main-grid mt-[64px]'>
           {isLoading
             ? Array.from({ length: 5 }).map((_, index) => (
                 <SkeletonCard key={index} />
               ))
-            : localPatients.map((patient: PatientType) => (
+            : sortedPatients.map((patient: PatientType) => (
                 <PatientCard
                   key={patient.id}
                   patient={patient}
