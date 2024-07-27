@@ -5,6 +5,7 @@ import defaultPic from '../../assets/defaultPic.png'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
+import FocusTrap from 'focus-trap-react'
 
 const schema = yup
   .object({
@@ -99,90 +100,92 @@ const PatientModal = ({
   }
 
   return (
-    <div
-      className={`modal-overlay ${patient && !animateClose ? 'visible' : 'hidden'}`}
-      onClick={handleLocalOnClose}
-    >
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className='flex flex-col grow items-center justify-center'
+    <FocusTrap>
+      <div
+        className={`modal-overlay ${patient && !animateClose ? 'visible' : 'hidden'}`}
+        onClick={handleLocalOnClose}
       >
-        <div className='modal-container' onClick={e => e.stopPropagation()}>
-          <h2 className='text-xl font-semibold'>
-            {patient.name ? 'Edit Patient' : 'Add Patient'}
-          </h2>
-          <div className='avatar-section my-4'>
-            <img
-              src={watch('avatar') || defaultPic}
-              alt='Avatar'
-              className='w-24 h-24 rounded-full object-cover'
-            />
-            <div className='avatar-buttons'>
-              <input
-                type='file'
-                accept='image/*'
-                className='hidden'
-                id='upload-avatar'
-                onChange={handleUploadAvatar}
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className='flex flex-col grow items-center justify-center'
+        >
+          <div className='modal-container' onClick={e => e.stopPropagation()}>
+            <h2 className='text-xl font-semibold'>
+              {patient.name ? 'Edit Patient' : 'Add Patient'}
+            </h2>
+            <div className='avatar-section my-4'>
+              <img
+                src={watch('avatar') || defaultPic}
+                alt='Avatar'
+                className='w-24 h-24 rounded-full object-cover'
               />
-              <label
-                htmlFor='upload-avatar'
-                className='bg-black text-white py-2 px-3 rounded-lg font-medium cursor-pointer hover:bg-[#303030]'
+              <div className='avatar-buttons'>
+                <input
+                  type='file'
+                  accept='image/*'
+                  className='hidden'
+                  id='upload-avatar'
+                  onChange={handleUploadAvatar}
+                />
+                <label
+                  htmlFor='upload-avatar'
+                  className='bg-black text-white py-2 px-3 rounded-lg font-medium cursor-pointer hover:bg-[#303030]'
+                >
+                  Upload new
+                </label>
+                {watch('avatar') && (
+                  <button onClick={handleDeleteAvatar} className='text-red-500'>
+                    Delete
+                  </button>
+                )}
+              </div>
+            </div>
+            <input
+              type='text'
+              {...register('name')}
+              placeholder='Patient name'
+              className={errors.name && !resetShake ? 'shake' : ''}
+            />
+            {errors.name && <p className='text-red-500'>{errors.name.message}</p>}
+            <input
+              type='text'
+              {...register('website')}
+              placeholder='Website address'
+              className={errors.website && !resetShake ? 'shake' : ''}
+            />
+            {errors.website && (
+              <p className='text-red-500'>{errors.website.message}</p>
+            )}
+            <div className='desc-wrapper-container'>
+              <textarea
+                placeholder='Description'
+                style={{ resize: 'none' }}
+                {...register('description')}
+                className={errors.description && !resetShake ? 'shake' : ''}
+              />
+            </div>
+            {errors.description && (
+              <p className='text-red-500'>{errors.description.message}</p>
+            )}
+            <div className='flex flex-col gap-3 mt-4'>
+              <button
+                type='submit'
+                onClick={handleLocalSubmit}
+                className='bg-black text-white py-3 font-semibold rounded-lg text-lg hover:bg-[#303030]'
               >
-                Upload new
-              </label>
-              {watch('avatar') && (
-                <button onClick={handleDeleteAvatar} className='text-red-500'>
-                  Delete
-                </button>
-              )}
+                Save changes
+              </button>
+              <button
+                onClick={handleLocalOnClose}
+                className='text-red-500 text-lg py-3 rounded-lg font-semibold hover:bg-[#f2f2f2]'
+              >
+                Cancel
+              </button>
             </div>
           </div>
-          <input
-            type='text'
-            {...register('name')}
-            placeholder='Patient name'
-            className={errors.name && !resetShake ? 'shake' : ''}
-          />
-          {errors.name && <p className='text-red-500'>{errors.name.message}</p>}
-          <input
-            type='text'
-            {...register('website')}
-            placeholder='Website address'
-            className={errors.website && !resetShake ? 'shake' : ''}
-          />
-          {errors.website && (
-            <p className='text-red-500'>{errors.website.message}</p>
-          )}
-          <div className='desc-wrapper-container'>
-            <textarea
-              placeholder='Description'
-              style={{ resize: 'none' }}
-              {...register('description')}
-              className={errors.description && !resetShake ? 'shake' : ''}
-            />
-          </div>
-          {errors.description && (
-            <p className='text-red-500'>{errors.description.message}</p>
-          )}
-          <div className='flex flex-col gap-3 mt-4'>
-            <button
-              type='submit'
-              onClick={handleLocalSubmit}
-              className='bg-black text-white py-3 font-semibold rounded-lg text-lg hover:bg-[#303030]'
-            >
-              Save changes
-            </button>
-            <button
-              onClick={handleLocalOnClose}
-              className='text-red-500 text-lg py-3 rounded-lg font-semibold hover:bg-[#f2f2f2]'
-            >
-              Cancel
-            </button>
-          </div>
-        </div>
-      </form>
-    </div>
+        </form>
+      </div>
+    </FocusTrap>
   )
 }
 
