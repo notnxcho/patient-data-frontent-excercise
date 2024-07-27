@@ -1,4 +1,4 @@
-import { IconProps } from '../../types';
+import { IconProps } from '../../types'
 
 const EditIcon = ({ color = 'black', stroke = 1.25, size = 16 }: IconProps) => {
   return (
@@ -17,7 +17,7 @@ const EditIcon = ({ color = 'black', stroke = 1.25, size = 16 }: IconProps) => {
         stroke-linejoin='round'
       />
     </svg>
-  );
-};
+  )
+}
 
-export default EditIcon;
+export default EditIcon

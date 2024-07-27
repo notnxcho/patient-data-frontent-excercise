@@ -1,11 +1,11 @@
-import { useState } from 'react';
-import { usePatientContext } from '../../context/patientContext';
-import { PatientType } from '../../types';
-import './PatientCardStyles.scss';
-import { useInView } from 'react-intersection-observer';
-import EditIcon from '../../assets/icons/editIcon';
-import { formatDate } from '../../utils/common';
-import defaultPic from '../../assets/defaultPic.png';
+import { useState } from 'react'
+import { usePatientContext } from '../../context/patientContext'
+import { PatientType } from '../../types'
+import './PatientCardStyles.scss'
+import { useInView } from 'react-intersection-observer'
+import EditIcon from '../../assets/icons/editIcon'
+import { formatDate } from '../../utils/common'
+import defaultPic from '../../assets/defaultPic.png'
 
 const PatientCard = ({
   patient,
@@ -13,19 +13,19 @@ const PatientCard = ({
   onToggleExpand,
   onEdit,
 }: {
-  patient: PatientType;
-  isExpanded: boolean;
-  onToggleExpand: () => void;
-  onEdit: (patient: PatientType) => void;
+  patient: PatientType
+  isExpanded: boolean
+  onToggleExpand: () => void
+  onEdit: (patient: PatientType) => void
 }) => {
   const { ref, inView } = useInView({
     triggerOnce: true,
     rootMargin: '-80px 0px',
-  });
+  })
 
   const handleEdit = () => {
-    onEdit(patient);
-  };
+    onEdit(patient)
+  }
 
   return (
     <div
@@ -67,7 +67,7 @@ const PatientCard = ({
         </button>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default PatientCard;
+export default PatientCard

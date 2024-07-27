@@ -1,4 +1,4 @@
-import './SkeletonCardStyles.scss';
+import './SkeletonCardStyles.scss'
 
 const SkeletonCard = () => {
   return (
@@ -10,7 +10,7 @@ const SkeletonCard = () => {
       <div className='skeleton-description'></div>
       <div className='skeleton-footer'></div>
     </div>
-  );
-};
+  )
+}
 
-export default SkeletonCard;
+export default SkeletonCard

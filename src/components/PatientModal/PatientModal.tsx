@@ -1,155 +1,167 @@
-import { useState } from 'react';
-import { PatientType } from '../../types';
-import './PatientModalStyles.scss';
-import defaultPic from '../../assets/defaultPic.png';
+import { useState } from 'react'
+import { PatientType } from '../../types'
+import './PatientModalStyles.scss'
+import defaultPic from '../../assets/defaultPic.png'
+import { SubmitHandler, useForm } from 'react-hook-form'
+import * as yup from 'yup'
+import { yupResolver } from '@hookform/resolvers/yup'
+
+const schema = yup
+  .object({
+    name: yup.string().required('Name is required'),
+    website: yup.string().url('Website must be a valid URL'),
+    description: yup.string().required('Description is required'),
+    avatar: yup.string(),
+  })
+  .required()
+
+type Inputs = yup.InferType<typeof schema>
 
 const PatientModal = ({
   patient,
   onClose,
   onUpdatePatient,
 }: {
-  patient: PatientType;
-  onClose: () => void;
-  onUpdatePatient: (updatedPatient: PatientType) => void;
+  patient: PatientType
+  onClose: () => void
+  onUpdatePatient: (updatedPatient: PatientType) => void
 }) => {
-  const [name, setName] = useState(patient.name);
-  const [website, setWebsite] = useState(patient.website);
-  const [avatar, setAvatar] = useState(patient.avatar);
-  const [description, setDescription] = useState(patient.description);
-  const [animateClose, setAnimateClose] = useState(false);
-  const [errors, setErrors] = useState<{
-    name?: string;
-    website?: string;
-    description?: string;
-  }>({});
+  const [animateClose, setAnimateClose] = useState(false)
+  const [resetShake, setResetShake] = useState(false)
 
-  const validateInputs = () => {
-    const newErrors: { name?: string; website?: string; description?: string } =
-      {};
-    if (!name.trim()) newErrors.name = 'Name is required';
-    if (website && !/^https?:\/\/[^\s$.?#].[^\s]*$/.test(website))
-      newErrors.website = 'Invalid website URL';
-    if (!description.trim()) newErrors.description = 'Description is required';
-    return newErrors;
-  };
-
-  const handleSubmit = () => {
-    setErrors({});
-    setTimeout(() => {
-      const validationErrors = validateInputs();
-      if (Object.keys(validationErrors).length > 0) {
-        setErrors(validationErrors);
-        return;
-      }
-      onUpdatePatient({ ...patient, name, website, avatar, description });
-      handleLocalOnClose();
-    }, 0);
-  };
-
-  const handleDeleteAvatar = () => {
-    setAvatar('');
-  };
+  const {
+    register,
+    handleSubmit,
+    getValues,
+    setValue,
+    watch,
+    formState: { errors, isSubmitSuccessful },
+  } = useForm<Inputs>({
+    resolver: yupResolver(schema),
+    defaultValues: patient,
+  })
 
   const handleLocalOnClose = () => {
-    setAnimateClose(true);
+    setAnimateClose(true)
     setTimeout(() => {
-      onClose();
-    }, 200);
-  };
+      onClose()
+    }, 200)
+  }
+
+  const handleLocalSubmit = () => {
+    setResetShake(true)
+    setTimeout(() => {
+      setResetShake(false)
+    }, 0)
+  }
+
+  const onSubmit: SubmitHandler<Inputs> = data => {
+    onUpdatePatient({ ...patient, ...data })
+    handleLocalOnClose()
+  }
+
+  const handleDeleteAvatar = () => {
+    setValue('avatar', '')
+  }
 
   const handleUploadAvatar = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      const reader = new FileReader();
+      const reader = new FileReader()
       reader.onload = event => {
         if (event.target && event.target.result) {
-          setAvatar(event.target.result as string);
+          setValue('avatar', event.target.result as string)
         }
-      };
-      reader.readAsDataURL(e.target.files[0]);
+      }
+      reader.readAsDataURL(e.target.files[0])
     }
-  };
+  }
 
   return (
     <div
       className={`modal-overlay ${patient && !animateClose ? 'visible' : 'hidden'}`}
       onClick={handleLocalOnClose}
     >
-      <div className='modal-container' onClick={e => e.stopPropagation()}>
-        <h2 className='text-xl font-semibold'>
-          {patient.name ? 'Edit Patient' : 'Add Patient'}
-        </h2>
-        <div className='avatar-section my-4'>
-          <img
-            src={avatar || defaultPic}
-            alt='Avatar'
-            className='w-24 h-24 rounded-full object-cover'
-          />
-          <div className='avatar-buttons'>
-            <input
-              type='file'
-              accept='image/*'
-              onChange={handleUploadAvatar}
-              className='hidden'
-              id='upload-avatar'
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className='flex flex-col grow items-center justify-center'
+      >
+        <div className='modal-container' onClick={e => e.stopPropagation()}>
+          <h2 className='text-xl font-semibold'>
+            {patient.name ? 'Edit Patient' : 'Add Patient'}
+          </h2>
+          <div className='avatar-section my-4'>
+            <img
+              src={watch('avatar') || defaultPic}
+              alt='Avatar'
+              className='w-24 h-24 rounded-full object-cover'
             />
-            <label
-              htmlFor='upload-avatar'
-              className='bg-black text-white py-2 px-3 rounded-lg font-medium cursor-pointer hover:bg-[#303030]'
+            <div className='avatar-buttons'>
+              <input
+                type='file'
+                accept='image/*'
+                className='hidden'
+                id='upload-avatar'
+                onChange={handleUploadAvatar}
+              />
+              <label
+                htmlFor='upload-avatar'
+                className='bg-black text-white py-2 px-3 rounded-lg font-medium cursor-pointer hover:bg-[#303030]'
+              >
+                Upload new
+              </label>
+              {watch('avatar') && (
+                <button onClick={handleDeleteAvatar} className='text-red-500'>
+                  Delete
+                </button>
+              )}
+            </div>
+          </div>
+          <input
+            type='text'
+            {...register('name')}
+            placeholder='Patient name'
+            className={errors.name && !resetShake ? 'shake' : ''}
+          />
+          {errors.name && <p className='text-red-500'>{errors.name.message}</p>}
+          <input
+            type='text'
+            {...register('website')}
+            placeholder='Website address'
+            className={errors.website && !resetShake ? 'shake' : ''}
+          />
+          {errors.website && (
+            <p className='text-red-500'>{errors.website.message}</p>
+          )}
+          <div className='desc-wrapper-container'>
+            <textarea
+              placeholder='Description'
+              style={{ resize: 'none' }}
+              {...register('description')}
+              className={errors.description && !resetShake ? 'shake' : ''}
+            />
+          </div>
+          {errors.description && (
+            <p className='text-red-500'>{errors.description.message}</p>
+          )}
+          <div className='flex flex-col gap-3 mt-4'>
+            <button
+              type='submit'
+              onClick={handleLocalSubmit}
+              className='bg-black text-white py-3 font-semibold rounded-lg text-lg hover:bg-[#303030]'
             >
-              Upload new
-            </label>
-            {avatar && (
-              <button onClick={handleDeleteAvatar} className='text-red-500'>
-                Delete
-              </button>
-            )}
+              Save changes
+            </button>
+            <button
+              onClick={handleLocalOnClose}
+              className='text-red-500 text-lg py-3 rounded-lg font-semibold hover:bg-[#f2f2f2]'
+            >
+              Cancel
+            </button>
           </div>
         </div>
-        <input
-          type='text'
-          value={name}
-          onChange={e => setName(e.target.value)}
-          placeholder='Patient name'
-          className={errors.name && 'shake'}
-        />
-        {errors.name && <p className='text-red-500'>{errors.name}</p>}
-        <input
-          type='text'
-          value={website}
-          onChange={e => setWebsite(e.target.value)}
-          placeholder='Website address'
-          className={errors.website && 'shake'}
-        />
-        {errors.website && <p className='text-red-500'>{errors.website}</p>}
-        <div className='desc-wrapper-container'>
-          <textarea
-            placeholder='Description'
-            style={{ resize: 'none' }}
-            value={description}
-            onChange={e => setDescription(e.target.value)}
-            className={errors.description && 'shake'}
-          />
-        </div>
-        {errors.description && (
-          <p className='text-red-500'>{errors.description}</p>
-        )}
-        <div className='flex flex-col gap-3 mt-4'>
-          <button
-            onClick={handleSubmit}
-            className='bg-black text-white py-3 font-semibold rounded-lg text-lg hover:bg-[#303030]'
-          >
-            Save changes
-          </button>
-          <button
-            onClick={handleLocalOnClose}
-            className='text-red-500 text-lg py-3 rounded-lg font-semibold hover:bg-[#f2f2f2]'
-          >
-            Cancel
-          </button>
-        </div>
-      </div>
+      </form>
     </div>
-  );
-};
+  )
+}
 
-export default PatientModal;
+export default PatientModal

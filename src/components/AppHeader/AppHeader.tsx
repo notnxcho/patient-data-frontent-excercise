@@ -1,7 +1,7 @@
-import { useState } from 'react';
-import AddIcon from '../../assets/icons/addIcon';
-import './AppHeaderStyles.scss';
-import { PatientType } from '../../types';
+import { useState } from 'react'
+import AddIcon from '../../assets/icons/addIcon'
+import './AppHeaderStyles.scss'
+import { PatientType } from '../../types'
 
 const AppHeader = ({ onAddPatient }: { onAddPatient: () => void }) => {
   return (
@@ -16,7 +16,7 @@ const AppHeader = ({ onAddPatient }: { onAddPatient: () => void }) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default AppHeader;
+export default AppHeader

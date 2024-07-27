@@ -1,4 +1,4 @@
-import { IconProps } from '../../types';
+import { IconProps } from '../../types'
 
 const AddIcon = ({ color = 'black', stroke = 1.25, size = 16 }: IconProps) => {
   return (
@@ -31,7 +31,7 @@ const AddIcon = ({ color = 'black', stroke = 1.25, size = 16 }: IconProps) => {
         stroke-linejoin='round'
       />
     </svg>
-  );
-};
+  )
+}
 
-export default AddIcon;
+export default AddIcon
